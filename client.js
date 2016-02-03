@@ -1,35 +1,36 @@
 
 (function(global){
   var ChatWork = (function() {
-
-    function ChatWork(config) {
+    
+    function ChatWork(config)
+    {
       this.base_url = 'https://api.chatwork.com/v1';
-      this.headers  = {'X-ChatWorkToken': config.token};
-    }
-
+      this.headers  = {'X-ChatWorkToken': config.token};  
+    };
+    
     /**
     * メッセージ送信
     */
-    ChatWork.prototype.sendMessage = function(params) {
+    ChatWork.prototype.sendMessage = function(params) { 
       var post_data = {
         'body': params.body
-      };
-
-      this.post('/rooms/'+ params.room_id +'/messages', post_data);
+      }
+      
+      return this.post('/rooms/'+ params.room_id +'/messages', post_data);
     };
-
+    
     /**
     * マイチャットへのメッセージを送信
     */
     ChatWork.prototype.sendMessageToMyChat = function(message) {
       var mydata = this.get('/me');
-
-      this.sendMessage({
+      
+      return this.sendMessage({
         'body': message,
         'room_id': mydata.room_id
       });
     };
-
+    
     /**
     * タスク追加
     */
@@ -38,19 +39,27 @@
       var post_data = {
         'body': params.body,
         'to_ids': to_ids,
-        'limit': params.limit
+        'limit': (new Number(params.limit)).toFixed() // 指数表記で来ることがあるので、intにする
       };
-
-      this.post('/rooms/'+ params.room_id +'/tasks', post_data);
+      
+      return this.post('/rooms/'+ params.room_id +'/tasks', post_data);
     };
-
+    
+    /**
+     * 指定したチャットのタスク一覧を取得
+     */
+    ChatWork.prototype.getRoomTasks = function(room_id, params) {
+      return this.get('/rooms/' + room_id + '/tasks', params);
+    };
+    
     /**
     * 自分のタスク一覧を取得
     */
     ChatWork.prototype.getMyTasks = function(params) {
       return this.get('/my/tasks', params);
     };
-
+    
+    
     ChatWork.prototype._sendRequest = function(params)
     {
       var url = this.base_url + params.path;
@@ -59,15 +68,16 @@
         'headers': this.headers,
         'payload': params.payload || {}
       };
-
       result = UrlFetchApp.fetch(url, options);
-
+    
       // リクエストに成功していたら結果を解析して返す
       if (result.getResponseCode() == 200) {
-        return Utilities.jsonParse(result.getContentText());
+        return JSON.parse(result.getContentText())
       }
+    
+      return false;
     };
-
+                  
     ChatWork.prototype.post = function(endpoint, post_data) {
       return this._sendRequest({
         'method': 'post',
@@ -75,29 +85,37 @@
         'payload': post_data
       });
     };
-
-    ChatWork.prototype.get = function(endpoint, get_data) {
+  
+    ChatWork.prototype.put = function(endpoint, put_data) {
+      return this._sendRequest({
+        'method': 'put',
+        'path': endpoint,
+        'payload': put_data
+      });
+    };
+  
+    ChatWork.prototype.get = function(endpoint, get_data) { 
       get_data = get_data || {};
-
-      var path = endpoint;
-
+      
+      var path = endpoint
+    
       // get_dataがあればクエリーを生成する
       // かなり簡易的なので必要に応じて拡張する
       var query_string_list = [];
       for (var key in get_data) {
         query_string_list.push(encodeURIComponent(key) + '=' + encodeURIComponent(get_data[key]));
       }
-
+      
       if (query_string_list.length > 0) {
-        path += '?' + query_string_list.join('&');
+        path += '?' + query_string_list.join('&'); 
       }
-
+      
       return this._sendRequest({
         'method': 'get',
         'path': path
       });
     };
-
+  
     return ChatWork;
   })();
 
@@ -118,4 +136,4 @@
  */
 function factory(config) {
   return new ChatWork(config);
-}
+};

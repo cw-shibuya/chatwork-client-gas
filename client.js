@@ -4,7 +4,7 @@
     
     function ChatWork(config)
     {
-      this.base_url = 'https://api.chatwork.com/v1';
+      this.base_url = 'https://api.chatwork.com/v2';
       this.headers  = {'X-ChatWorkToken': config.token};  
     };
     

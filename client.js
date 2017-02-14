@@ -9,6 +9,13 @@
     };
     
     /**
+    * 自分のルーム一覧を取得
+    */
+    ChatWork.prototype.getRooms = function() {
+      return this.get('/rooms');
+    };
+    
+    /**
     * メッセージ送信
     */
     ChatWork.prototype.sendMessage = function(params) { 

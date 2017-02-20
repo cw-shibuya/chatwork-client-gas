@@ -19,14 +19,9 @@
     * ルーム作成
     */
     ChatWork.prototype.createRoom = function(params) {
-      if(params.icon_preset == undefined)
-      {
-        params.icon_preset = "group";
-      }
-     
       var post_data = {
         'description': params.description || {},
-        'icon_preset': params.icon_preset,
+        'icon_preset': params.icon_preset || "group",
         'members_admin_ids': params.members_admin_ids,
         'members_member_ids': params.members_member_ids || "",
         'members_readonly_ids': params.members_readonly_ids || "",

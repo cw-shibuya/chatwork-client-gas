@@ -1,4 +1,4 @@
-ChatWork Client for Google Apps Script
+Chatwork Client for Google Apps Script
 
 =================
 

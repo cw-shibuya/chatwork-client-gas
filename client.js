@@ -37,6 +37,13 @@
         'room_id': mydata.room_id
       });
     };
+
+    /**
+     * 指定したチャットのメッセージを取得
+     */
+    ChatWork.prototype.getMessages = function(room_id) {
+      return this.get('/rooms/' + room_id + '/messages');
+    };
     
     /**
     * タスク追加

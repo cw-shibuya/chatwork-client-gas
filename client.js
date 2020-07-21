@@ -23,7 +23,7 @@
         'body': params.body
       };
       if (params.self_unread !== undefined) {
-        post_data['self_unread'] = params.self_unread;
+        post_data.self_unread = params.self_unread;
       }
       return this.post('/rooms/'+ params.room_id +'/messages', post_data);
     };

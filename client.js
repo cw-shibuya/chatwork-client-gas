@@ -44,7 +44,7 @@
      * 指定したチャットのメッセージを取得
      */
     ChatWork.prototype.getMessages = function(room_id, force = 0) {
-      return this.get('/rooms/' + room_id + '/messages?force' + force);
+      return this.get('/rooms/' + room_id + '/messages?force=' + force);
     };
     
     /**

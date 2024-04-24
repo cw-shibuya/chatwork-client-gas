@@ -1,9 +1,9 @@
-Chatwork Client for Google Apps Script
+# Google Apps Script Chatwork API
 
-=================
+Google Apps Script スクリプト ID: `1GbAl1qW_k5oFXqQSRHLJ0GZw0jvZ0CbgLoMVp99g9RgDme5yD9oUNGFs`
 
-Google App Script スクリプト ID: `1nf253qsOnZ-RcdcFu1Y2v4pGwTuuDxN5EbuvKEZprBWg764tjwA5fLav`
+<video controls src="how-to-use.mp4" title="How to use"></video>
 
 ## 注意
 Chatwork社 公式ライブラリではないので使用上起きた問題についての責任は負いかねます。
-自己責任での利用をお願いします
+自己責任での利用をお願いします。

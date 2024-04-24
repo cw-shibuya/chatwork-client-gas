@@ -1461,8 +1461,6 @@ class InvalidParameterError_ extends Error {
   }
 }
 
-/** @type {globalThis} */
-
 /**
  * @typedef {object} Me
  * 提供されたAPIトークンに関連付けられたユーザーに関する情報を含むオブジェクト。

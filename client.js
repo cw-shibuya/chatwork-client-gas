@@ -2,7 +2,7 @@
  * @param {string} token
  * Chatworkメッセージの送信に使用するAPIトークン。
  */
-function createGetHeaders_(token) {
+function createBaseHeaders_(token) {
   return {
     accept: "application/json",
     "x-chatworktoken": token,
@@ -13,15 +13,12 @@ function createGetHeaders_(token) {
  * @param {string} token
  * Chatworkメッセージの送信に使用するAPIトークン。
  */
-function createPostHeaders_(token) {
+function createFormHeaders_(token) {
   return {
-    ...createGetHeaders_(token),
+    ...createBaseHeaders_(token),
     "content-type": "application/x-www-form-urlencoded",
   };
 }
-
-const createPutHeaders_ = createPostHeaders_;
-const createDeleteHeaders_ = createPostHeaders_;
 
 /**
  * [`GET`（取得）](https://developer.chatwork.com/reference/get-me)
@@ -36,7 +33,7 @@ const createDeleteHeaders_ = createPostHeaders_;
  */
 function getMe(token) {
   const res = UrlFetchApp.fetch(`${ApiV2_}/me`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -59,7 +56,7 @@ function getMe(token) {
  */
 function getMyStatus(token) {
   const res = UrlFetchApp.fetch(`${ApiV2_}/my/status`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -99,7 +96,7 @@ function getMyTasks(token, queryParams) {
   const queryString = queryStringFromParamsObject_(queryParams);
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/my/tasks${queryString}`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -122,7 +119,7 @@ function getMyTasks(token, queryParams) {
  */
 function getContacts(token) {
   const res = UrlFetchApp.fetch(`${ApiV2_}/contacts`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -145,7 +142,7 @@ function getContacts(token) {
  */
 function getRooms(token) {
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -247,7 +244,7 @@ function postRooms(token, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms`, {
     method: "post",
-    headers: createPostHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -278,7 +275,7 @@ function getRoom(token, roomId) {
   }
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -320,7 +317,7 @@ function putRoom(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}`, {
     method: "put",
-    headers: createPutHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -361,7 +358,7 @@ function deleteRooms(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}`, {
     method: "delete",
-    headers: createPostHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -391,7 +388,7 @@ function getRoomMembers(token, roomId) {
   }
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/members`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -452,7 +449,7 @@ function putRoomMembers(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/members`, {
     method: "put",
-    headers: createPutHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -494,7 +491,7 @@ function getRoomMessages(token, roomId, queryParams) {
   const res = UrlFetchApp.fetch(
     `${ApiV2_}/rooms/${roomId}/messages${queryString}`,
     {
-      headers: createGetHeaders_(token),
+      headers: createBaseHeaders_(token),
     }
   );
 
@@ -540,7 +537,7 @@ function postRoomMessage(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/messages`, {
     method: "post",
-    headers: createPostHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -577,7 +574,7 @@ function putRoomMessagesRead(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/messages/read`, {
     method: "put",
-    headers: createPutHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -617,7 +614,7 @@ function putRoomMessagesUnread(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/messages/unread`, {
     method: "put",
-    headers: createPutHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -656,7 +653,7 @@ function getRoomMessage(token, roomId, messageId) {
   const res = UrlFetchApp.fetch(
     `${ApiV2_}/rooms/${roomId}/messages/${messageId}`,
     {
-      headers: createGetHeaders_(token),
+      headers: createBaseHeaders_(token),
     }
   );
 
@@ -702,7 +699,7 @@ function putRoomMessage(token, roomId, messageId, formData) {
     `${ApiV2_}/rooms/${roomId}/messages/${messageId}`,
     {
       method: "put",
-      headers: createPutHeaders_(token),
+      headers: createFormHeaders_(token),
       payload: formData,
     }
   );
@@ -741,7 +738,7 @@ function deleteRoomMessage(token, roomId, messageId) {
     `${ApiV2_}/rooms/${roomId}/messages/${messageId}`,
     {
       method: "delete",
-      headers: createGetHeaders_(token),
+      headers: createBaseHeaders_(token),
     }
   );
 
@@ -794,7 +791,7 @@ function getRoomTasks(token, roomId, queryParams) {
   const res = UrlFetchApp.fetch(
     `${ApiV2_}/rooms/${roomId}/tasks${queryString}`,
     {
-      headers: createGetHeaders_(token),
+      headers: createBaseHeaders_(token),
     }
   );
 
@@ -874,7 +871,7 @@ function postRoomTasks(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/tasks`, {
     method: "post",
-    headers: createPostHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -911,7 +908,7 @@ function getRoomTask(token, roomId, taskId) {
   }
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/tasks/${taskId}`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -965,7 +962,7 @@ function putRoomTaskStatus(token, roomId, taskId, formData) {
     `${ApiV2_}/rooms/${roomId}/tasks/${taskId}/status`,
     {
       method: "put",
-      headers: createPutHeaders_(token),
+      headers: createFormHeaders_(token),
       payload: formData,
     }
   );
@@ -1012,7 +1009,7 @@ function getRoomFiles(token, roomId, queryParams) {
   const res = UrlFetchApp.fetch(
     `${ApiV2_}/rooms/${roomId}/files${queryString}`,
     {
-      headers: createGetHeaders_(token),
+      headers: createBaseHeaders_(token),
     }
   );
 
@@ -1054,7 +1051,7 @@ function postRoomFiles(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/files`, {
     method: "post",
-    headers: createPostHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -1108,7 +1105,7 @@ function getRoomFile(token, roomId, fileId, queryParams) {
   const res = UrlFetchApp.fetch(
     `${ApiV2_}/rooms/${roomId}/files/${fileId}${queryString}`,
     {
-      headers: createGetHeaders_(token),
+      headers: createBaseHeaders_(token),
     }
   );
 
@@ -1138,7 +1135,7 @@ function getRoomLink(token, roomId) {
   }
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -1185,7 +1182,7 @@ function postRoomLink(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
     method: "post",
-    headers: createPostHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -1233,7 +1230,7 @@ function putRoomLink(token, roomId, formData) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
     method: "put",
-    headers: createPutHeaders_(token),
+    headers: createFormHeaders_(token),
     payload: formData,
   });
 
@@ -1265,7 +1262,7 @@ function deleteRoomLink(token, roomId) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
     method: "delete",
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -1288,7 +1285,7 @@ function deleteRoomLink(token, roomId) {
  */
 function getIncomingRequests(token) {
   const res = UrlFetchApp.fetch(`${ApiV2_}/incoming_requests`, {
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -1319,7 +1316,7 @@ function putIncomingRequests(token, requestId) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/incoming_requests/${requestId}`, {
     method: "put",
-    headers: createPutHeaders_(token),
+    headers: createFormHeaders_(token),
   });
 
   if (isHttpError_(res)) {
@@ -1347,7 +1344,7 @@ function deleteIncomingRequest(token, requestId) {
 
   const res = UrlFetchApp.fetch(`${ApiV2_}/incoming_requests/${requestId}`, {
     method: "delete",
-    headers: createGetHeaders_(token),
+    headers: createBaseHeaders_(token),
   });
 
   if (isHttpError_(res)) {

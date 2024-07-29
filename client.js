@@ -1,3 +1,5 @@
+const APIv2_ = "https://api.chatwork.com/v2";
+
 /**
  * @param {string} token
  * Chatworkメッセージの送信に使用するAPIトークン。
@@ -32,7 +34,7 @@ function createFormHeaders_(token) {
  * @return {Me}
  */
 function getMe(token) {
-  const res = UrlFetchApp.fetch(`${ApiV2_}/me`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/me`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -55,7 +57,7 @@ function getMe(token) {
  * @return {MyStatus}
  */
 function getMyStatus(token) {
-  const res = UrlFetchApp.fetch(`${ApiV2_}/my/status`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/my/status`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -95,7 +97,7 @@ function getMyStatus(token) {
 function getMyTasks(token, queryParams) {
   const queryString = queryStringFromParamsObject_(queryParams);
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/my/tasks${queryString}`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/my/tasks${queryString}`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -118,7 +120,7 @@ function getMyTasks(token, queryParams) {
  * @return {Contact[]}
  */
 function getContacts(token) {
-  const res = UrlFetchApp.fetch(`${ApiV2_}/contacts`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/contacts`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -141,7 +143,7 @@ function getContacts(token) {
  * @return {RoomInfo[]}
  */
 function getRooms(token) {
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -242,7 +244,7 @@ function postRooms(token, formData) {
     formData.members_readonly_ids = formData.members_readonly_ids.join(",");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms`, {
     method: "post",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -274,7 +276,7 @@ function getRoom(token, roomId) {
     throw new MissingParameterError_("roomId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -315,7 +317,7 @@ function putRoom(token, roomId, formData) {
     throw new MissingParameterError_("roomId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}`, {
     method: "put",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -356,7 +358,7 @@ function deleteRooms(token, roomId, formData) {
     throw new MissingParameterError_("formData.action_type");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}`, {
     method: "delete",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -387,7 +389,7 @@ function getRoomMembers(token, roomId) {
     throw new MissingParameterError_("roomId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/members`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/members`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -447,7 +449,7 @@ function putRoomMembers(token, roomId, formData) {
     formData.members_readonly_ids = formData.members_readonly_ids.join(",");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/members`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/members`, {
     method: "put",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -489,7 +491,7 @@ function getRoomMessages(token, roomId, queryParams) {
   const queryString = queryStringFromParamsObject_(queryParams);
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/messages${queryString}`,
+    `${APIv2_}/rooms/${roomId}/messages${queryString}`,
     {
       headers: createBaseHeaders_(token),
     }
@@ -535,7 +537,7 @@ function postRoomMessage(token, roomId, formData) {
 
   formData.self_unread = formData.self_unread ? "1" : "0";
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/messages`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/messages`, {
     method: "post",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -572,7 +574,7 @@ function putRoomMessagesRead(token, roomId, formData) {
     throw new MissingParameterError_("roomId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/messages/read`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/messages/read`, {
     method: "put",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -612,7 +614,7 @@ function putRoomMessagesUnread(token, roomId, formData) {
     throw new MissingParameterError_("formData.message_id");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/messages/unread`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/messages/unread`, {
     method: "put",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -651,7 +653,7 @@ function getRoomMessage(token, roomId, messageId) {
   }
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/messages/${messageId}`,
+    `${APIv2_}/rooms/${roomId}/messages/${messageId}`,
     {
       headers: createBaseHeaders_(token),
     }
@@ -696,7 +698,7 @@ function putRoomMessage(token, roomId, messageId, formData) {
   }
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/messages/${messageId}`,
+    `${APIv2_}/rooms/${roomId}/messages/${messageId}`,
     {
       method: "put",
       headers: createFormHeaders_(token),
@@ -735,7 +737,7 @@ function deleteRoomMessage(token, roomId, messageId) {
   }
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/messages/${messageId}`,
+    `${APIv2_}/rooms/${roomId}/messages/${messageId}`,
     {
       method: "delete",
       headers: createBaseHeaders_(token),
@@ -789,7 +791,7 @@ function getRoomTasks(token, roomId, queryParams) {
   const queryString = queryStringFromParamsObject_(queryParams);
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/tasks${queryString}`,
+    `${APIv2_}/rooms/${roomId}/tasks${queryString}`,
     {
       headers: createBaseHeaders_(token),
     }
@@ -869,7 +871,7 @@ function postRoomTasks(token, roomId, formData) {
     formData.limit = formData.limit.toString();
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/tasks`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/tasks`, {
     method: "post",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -907,7 +909,7 @@ function getRoomTask(token, roomId, taskId) {
     throw new MissingParameterError_("taskId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/tasks/${taskId}`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/tasks/${taskId}`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -959,7 +961,7 @@ function putRoomTaskStatus(token, roomId, taskId, formData) {
   }
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/tasks/${taskId}/status`,
+    `${APIv2_}/rooms/${roomId}/tasks/${taskId}/status`,
     {
       method: "put",
       headers: createFormHeaders_(token),
@@ -1007,7 +1009,7 @@ function getRoomFiles(token, roomId, queryParams) {
   const queryString = queryStringFromParamsObject_(queryParams);
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/files${queryString}`,
+    `${APIv2_}/rooms/${roomId}/files${queryString}`,
     {
       headers: createBaseHeaders_(token),
     }
@@ -1049,7 +1051,7 @@ function postRoomFiles(token, roomId, formData) {
     throw new MissingParameterError_("formData.file");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/files`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/files`, {
     method: "post",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -1103,7 +1105,7 @@ function getRoomFile(token, roomId, fileId, queryParams) {
   const queryString = queryStringFromParamsObject_(queryParams);
 
   const res = UrlFetchApp.fetch(
-    `${ApiV2_}/rooms/${roomId}/files/${fileId}${queryString}`,
+    `${APIv2_}/rooms/${roomId}/files/${fileId}${queryString}`,
     {
       headers: createBaseHeaders_(token),
     }
@@ -1134,7 +1136,7 @@ function getRoomLink(token, roomId) {
     throw new MissingParameterError_("roomId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/link`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -1180,7 +1182,7 @@ function postRoomLink(token, roomId, formData) {
     queryParams.need_acceptance = queryParams.need_acceptance ? 1 : 0;
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/link`, {
     method: "post",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -1228,7 +1230,7 @@ function putRoomLink(token, roomId, formData) {
     queryParams.need_acceptance = queryParams.need_acceptance ? 1 : 0;
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/link`, {
     method: "put",
     headers: createFormHeaders_(token),
     payload: formData,
@@ -1260,7 +1262,7 @@ function deleteRoomLink(token, roomId) {
     throw new MissingParameterError_("roomId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/rooms/${roomId}/link`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/rooms/${roomId}/link`, {
     method: "delete",
     headers: createBaseHeaders_(token),
   });
@@ -1284,7 +1286,7 @@ function deleteRoomLink(token, roomId) {
  * @return {ContactRequest[]}
  */
 function getIncomingRequests(token) {
-  const res = UrlFetchApp.fetch(`${ApiV2_}/incoming_requests`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/incoming_requests`, {
     headers: createBaseHeaders_(token),
   });
 
@@ -1314,7 +1316,7 @@ function putIncomingRequests(token, requestId) {
     throw new MissingParameterError_("requestId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/incoming_requests/${requestId}`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/incoming_requests/${requestId}`, {
     method: "put",
     headers: createFormHeaders_(token),
   });
@@ -1342,7 +1344,7 @@ function deleteIncomingRequest(token, requestId) {
     throw new MissingParameterError_("requestId");
   }
 
-  const res = UrlFetchApp.fetch(`${ApiV2_}/incoming_requests/${requestId}`, {
+  const res = UrlFetchApp.fetch(`${APIv2_}/incoming_requests/${requestId}`, {
     method: "delete",
     headers: createBaseHeaders_(token),
   });
